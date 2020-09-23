@@ -15,26 +15,12 @@ class MyApp extends StatelessWidget {
 }
 
 
-class RandomWords extends StatefulWidget{
-  @override
-  _RandomWordsState createState() => _RandomWordsState();
-}
-
-
 class _RandomWordsState extends State<RandomWords> {
 
-  final List<WordPair> _suggestions = <WordPair>[];
-  final TextStyle _biggerFont = const TextStyle(fontSize: 18);
+  final _suggestions = <WordPair>[];
+  final _saved = Set<WordPair>();     // NEW
+  final _biggerFont = TextStyle(fontSize: 18.0);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold (                     // Add from here...
-      appBar: AppBar(
-        title: Text('Startup Name Generator'),
-      ),
-      body: _buildSuggestions(),
-    );
-  } // Widget
 
   Widget _buildSuggestions() {
     return ListView.builder(
@@ -61,13 +47,36 @@ class _RandomWordsState extends State<RandomWords> {
     );
   }
 
+
   Widget _buildRow(WordPair pair) {
+    final alreadySaved = _saved.contains(pair);
     return ListTile(
       title: Text(
         pair.asPascalCase,
         style: _biggerFont,
       ),
+      trailing: Icon(   // NEW from here...
+        alreadySaved ? Icons.favorite : Icons.favorite_border,
+        color: alreadySaved ? Colors.red : null,
+      ),                // ... to here.
     );
   }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold (                     // Add from here...
+      appBar: AppBar(
+        title: Text('Startup Name Generator'),
+      ),
+      body: _buildSuggestions(),
+    );
+  } // Widget
+
 }
 
+
+class RandomWords extends StatefulWidget{
+  @override
+  _RandomWordsState createState() => _RandomWordsState();
+}
