@@ -1,6 +1,8 @@
 # hello_wolrd3
 
-A new Flutter project.
+A new Flutter project.  
+`flutter update` to update do the latest version.    
+`flutter run` to run the app.   
 
 ## Getting Started
 
