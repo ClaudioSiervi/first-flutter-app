@@ -60,7 +60,7 @@ class _RandomWordsState extends State<RandomWords> {
       ),
       trailing: Icon(
         alreadySaved ? Icons.favorite : Icons.favorite_border,
-        color: alreadySaved ? Colors.red : null,
+        color: alreadySaved ? Colors.green : null,
       ),
       onTap: () {
         setState(() {
@@ -69,7 +69,7 @@ class _RandomWordsState extends State<RandomWords> {
           } else {
             _saved.add(pair);
           }
-        });
+        }); // setState
       }, // onTap
     );
   }
@@ -81,7 +81,7 @@ class _RandomWordsState extends State<RandomWords> {
       appBar: AppBar(
         title: Text('Startup Name Generator'),
         actions: [
-          IconButton(icon: Icon(Icons.list), onPressed: _pushSaved),
+          IconButton(icon: Icon(Icons.memory), onPressed: _pushSaved),
         ],
       ),
       body: _buildSuggestions(),
