@@ -1,6 +1,8 @@
 # Hello World 3
 This is a simple Flutter app that lists random names for Start Up's.
 
+This project is a starting point for a Flutter application.
+
 Above there are a few resources to get you started with Flutter:
 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
@@ -11,7 +13,3 @@ Above there are a few resources to get you started with Flutter:
 `flutter update` to update do the latest version.    
 `flutter run` to run the app.   
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-# android-java-hello-world
