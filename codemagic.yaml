@@ -1,0 +1,126 @@
+# Automatically generated on 2022-07-01 UTC from https://codemagic.io/app/62879672d44138bfb0d3b718/settings
+# Note that this configuration is not an exact match to UI settings. Review and adjust as necessary.
+
+workflows:
+  test-workflow:
+    name: Test Workflow
+    max_build_duration: 60
+    environment:
+      flutter: 2.5.3
+      xcode: latest
+      cocoapods: default
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: '*'
+          include: true
+          source: true
+        - pattern: master
+          include: true
+          source: true
+        - pattern: main
+          include: true
+          source: true
+      tag_patterns:
+        - pattern: '*'
+          include: true
+    scripts:
+      - |
+        # set up debug keystore
+        rm -f ~/.android/debug.keystore
+        keytool -genkeypair \
+          -alias androiddebugkey \
+          -keypass android \
+          -keystore ~/.android/debug.keystore \
+          -storepass android \
+          -dname 'CN=Android Debug,O=Android,C=US' \
+          -keyalg 'RSA' \
+          -keysize 2048 \
+          -validity 10000
+      - |
+        # set up local properties
+        echo "flutter.sdk=$HOME/programs/flutter" > "$FCI_BUILD_DIR/android/local.properties"
+      - flutter packages pub get
+      - flutter analyze
+      - flutter build apk --release
+      - find . -name "Podfile" -execdir pod install \;
+      - flutter build ios --release --no-codesign
+    artifacts:
+      - build/**/outputs/apk/**/*.apk
+      - build/**/outputs/bundle/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - '*.snap'
+      - build/windows/**/*.msix
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - claudio.siervi@gmail.com
+      slack:
+        channel: '#random'
+        notify_on_build_start: true
+
+
+  build-workflow:
+    name: Build Workflow
+    max_build_duration: 60
+    environment:
+      flutter: 2.5.3
+      xcode: latest
+      cocoapods: default
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: '*'
+          include: true
+          source: true
+        - pattern: master
+          include: true
+          source: true
+        - pattern: main
+          include: true
+          source: true
+      tag_patterns:
+        - pattern: '*'
+          include: true
+    scripts:
+      - |
+        # set up debug keystore
+        rm -f ~/.android/debug.keystore
+        keytool -genkeypair \
+          -alias androiddebugkey \
+          -keypass android \
+          -keystore ~/.android/debug.keystore \
+          -storepass android \
+          -dname 'CN=Android Debug,O=Android,C=US' \
+          -keyalg 'RSA' \
+          -keysize 2048 \
+          -validity 10000
+      - |
+        # set up local properties
+        echo "flutter.sdk=$HOME/programs/flutter" > "$FCI_BUILD_DIR/android/local.properties"
+      - flutter packages pub get
+      - flutter analyze
+      - flutter build apk --release
+      - find . -name "Podfile" -execdir pod install \;
+      - flutter build ios --release --no-codesign
+    artifacts:
+      - build/**/outputs/apk/**/*.apk
+      - build/**/outputs/bundle/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - '*.snap'
+      - build/windows/**/*.msix
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - claudio.siervi@gmail.com
+      slack:
+        channel: '#random'
+        notify_on_build_start: true
