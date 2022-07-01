@@ -43,25 +43,6 @@ workflows:
         echo "flutter.sdk=$HOME/programs/flutter" > "$FCI_BUILD_DIR/android/local.properties"
       - flutter packages pub get
       - flutter analyze
-      - flutter build apk --release
-      - find . -name "Podfile" -execdir pod install \;
-      - flutter build ios --release --no-codesign
-    artifacts:
-      - build/**/outputs/apk/**/*.apk
-      - build/**/outputs/bundle/**/*.aab
-      - build/**/outputs/**/mapping.txt
-      - build/ios/ipa/*.ipa
-      - /tmp/xcodebuild_logs/*.log
-      - '*.snap'
-      - build/windows/**/*.msix
-      - flutter_drive.log
-    publishing:
-      email:
-        recipients:
-          - claudio.siervi@gmail.com
-      slack:
-        channel: '#random'
-        notify_on_build_start: true
 
 
   build-workflow:
